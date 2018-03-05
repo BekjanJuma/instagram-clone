@@ -1,0 +1,8 @@
+﻿@model Instagram.Models.ApplicationUser
+@{
+    ViewBag.Title = "Profile";
+}
+
+<h2>Profile</h2>
+<img src="data:image;base64,@System.Convert.ToBase64String(Model.Avatar)" width="200" />
+

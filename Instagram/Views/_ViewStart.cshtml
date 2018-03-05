@@ -1,3 +1,13 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity
+@{
+    var currentUser = HttpContext.Current.User;
+    Layout = null;
+}
+@if (currentUser.Identity.IsAuthenticated)
+{
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+else
+{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }

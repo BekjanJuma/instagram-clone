@@ -16,18 +16,14 @@ namespace Instagram.Models
             // Add custom user claims here
             return userIdentity;
         }
-    }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
-    {
-        public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
-        {
-        }
-
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
-        }
+        public byte[] Avatar { get; set; }
+        public string FullName { get; set; }
+        public string AboutMe { get; set; }
+        public bool Sex { get; set; }
+        public int numPosts { get; set; }
+        public int numFollowers { get; set; }
+        public int numFollowings { get; set; }
     }
+    
 }

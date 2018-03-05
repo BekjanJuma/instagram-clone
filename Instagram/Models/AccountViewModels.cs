@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace Instagram.Models
 {
@@ -49,9 +50,8 @@ namespace Instagram.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "User Name")]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -65,9 +65,29 @@ namespace Instagram.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "User Name")]
+        public string UserName { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Avatar")]
+        public HttpPostedFileBase Avatar { get; set; }
+
+        [Display(Name = "Full Name")]
+        public string FullName { get; set; }
+
+        [Display(Name = "About me")]
+        public string AboutMe { get; set; }
+
+        [Display(Name = "Phone number")]
+        public string PhoneNumber { get; set; }
+
+        [Display(Name = "Sex")]
+        public bool Sex { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
