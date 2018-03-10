@@ -1,0 +1,9 @@
+﻿@model Instagram.Models.Post
+
+@{
+    var likedModel = Model.Likes.FirstOrDefault(l => l.User.UserName == User.Identity.Name) != null;
+}
+
+<div class="card">
+    
+</div>

@@ -3,3 +3,7 @@
     -moz-box-sizing: content-box;
     box-sizing: content-box;
 }
+
+.post-txt-area {
+    width: 100%;
+}

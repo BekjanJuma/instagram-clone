@@ -229,12 +229,24 @@
     <Compile Include="Migrations\201803052019144_next2.Designer.cs">
       <DependentUpon>201803052019144_next2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803052130242_next3.cs" />
+    <Compile Include="Migrations\201803052130242_next3.Designer.cs">
+      <DependentUpon>201803052130242_next3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803061051190_next4.cs" />
+    <Compile Include="Migrations\201803061051190_next4.Designer.cs">
+      <DependentUpon>201803061051190_next4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Follow.cs" />
+    <Compile Include="Models\Like.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NinjectDependencyResolver.cs" />
+    <Compile Include="Models\Post.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -341,7 +353,9 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\_LayoutUser.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\User\Profile.cshtml" />
+    <Content Include="Views\User\UserDetails.cshtml" />
+    <Content Include="Views\User\_Post.cshtml" />
+    <Content Include="Views\User\NewPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -374,6 +388,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803052019144_next2.resx">
       <DependentUpon>201803052019144_next2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803052130242_next3.resx">
+      <DependentUpon>201803052130242_next3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803061051190_next4.resx">
+      <DependentUpon>201803061051190_next4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

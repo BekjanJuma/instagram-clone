@@ -9,6 +9,12 @@ namespace Instagram.Models
 {
     public class ApplicationContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<Follow> Follows { get; set; }
+
+
         public ApplicationContext() : this("DefaultConnection") { }
 
         public ApplicationContext(string connStringName) : base(connStringName) { }

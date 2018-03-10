@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -21,9 +22,12 @@ namespace Instagram.Models
         public string FullName { get; set; }
         public string AboutMe { get; set; }
         public bool Sex { get; set; }
+
         public int numPosts { get; set; }
         public int numFollowers { get; set; }
         public int numFollowings { get; set; }
+
+        public virtual List<Post> Posts { get; set; }
     }
     
 }
