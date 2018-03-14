@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "Search Posts";
+}
+<div class="row justify-content-center">
+    <div class=" col-12" style="padding-top:2em; padding-bottom: 2em;">
+        <div class="card" ng-app="instapp" ng-controller="searchCtrl">
+            <div class="card-header">
+                <div class="row">
+                    <div class="card-title col">
+                        @Strings.Search_users
+                    </div>
+                    <div class="col">
+                        <input class="form-control-sm float-right" type="text" ng-model="keyword" placeholder="@Strings.Search" />
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="card col-sm-6 col-md-4" ng-repeat="x in users | filter: keyword">
+                        <div class="text-center">
+                        <img class="card-img-top" ng-src="data:image/jpg;base64,{{x.Avatar | bytetobase}}" alt="Card image" style="width:50%">
+                        </div>
+                        <div class="card-body">
+                            <p class="card-title">
+                                {{x.UserName}} - {{x.FullName}} - {{x.Email}}
+                            </p>
+                            <p class="card-text">{{x.AboutMe}}</p>
+                            <a href="/User/UserProfile/{{x.UserName}}" class="btn btn-primary">@Strings.See_profile</a>
+                        </div>
+                    </div>
+                    
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        var app = angular.module('instapp', []);
+        app.filter('bytetobase', function () {
+            return function (buffer) {
+                var binary = '';
+                var bytes = new Uint8Array(buffer);
+                var len = bytes.byteLength;
+                for (var i = 0; i < len; i++) {
+                    binary += String.fromCharCode(bytes[i]);
+                }
+                return window.btoa(binary);
+            };
+        });
+
+        app.controller('searchCtrl', function ($scope, $http) {
+            $scope.users = [];
+            $scope.keyword = "";
+            $http.get("/User/GetUsers")
+                .then(function (response) {
+                    if (response.data.success) {
+                        $scope.users = response.data.data;
+                        console.log($scope.users);
+                    }
+                });
+        });
+
+    </script>
+}

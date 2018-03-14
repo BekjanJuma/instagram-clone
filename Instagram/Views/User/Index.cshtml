@@ -1,9 +1,9 @@
 ﻿@model IEnumerable<Instagram.Models.Post>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Strings.Index;
 }
 
-<div class="inner-wrapper">
+<div>
     @foreach (var post in Model ?? new List<Instagram.Models.Post>())
     {
         @Html.Partial("_Post", post)

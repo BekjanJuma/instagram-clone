@@ -24,7 +24,19 @@
         <a class="navbar-brand" href="/">
             <i class="fab fa-instagram fa-2x" alt="logo"></i>
         </a>
-
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a href="#" id="lang-ru" class="nav-link">RU</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" id="lang-en" class="nav-link">EN</a>
+            </li>
+            <li hidden="hidden" style="display:none;">
+                @using (Html.BeginForm("SetCulture", "Home", FormMethod.Post, new { @id = "setCulture" })) {
+                    <input id="lang-input" name="culture" value="ru-RU" />
+                }
+            </li>
+        </ul>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -37,9 +49,25 @@
     </nav>
 
     <div class="container">
+        @Html.Partial("_ErrorDiv")
+
         @RenderBody()
     </div>
+    <script type="text/javascript">
+        (function ($) {
+            $("#lang-ru").bind("click", function () {
+                $("#lang-input").val("ru-RU");
+                console.log($("#lang-input").val());
+                $("#setCulture").submit(); // post form
+            })
+            $("#lang-en").bind("click", function () {
+                $("#lang-input").val("en");
+                console.log($("#lang-input").val());
+                $("#setCulture").submit(); // post form
+            })
 
+        })(jQuery);
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

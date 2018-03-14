@@ -1,4 +1,6 @@
-﻿using Instagram.Models;
+﻿using Instagram.Filters;
+using Instagram.Models;
+using Instagram.Resources;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -11,6 +13,7 @@ using System.Web.Mvc;
 namespace Instagram.Controllers
 {
    [Authorize]
+   [Localization]
    public class UserController : Controller
    {
       private readonly ApplicationContext db;
@@ -23,27 +26,18 @@ namespace Instagram.Controllers
       public async Task<ActionResult> Index() {
          var me = await db.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
          List<string> follows = await db.Follows.Where(f => f.Following.UserName == User.Identity.Name)
-            .Select(x => x.Following.UserName).ToListAsync();
+            .Select(x => x.Followed.UserName).ToListAsync();
 
          // now for each following user get his posts
          // too many db calls - should be optimized later
          var posts = new List<Post>();
-         foreach(var fol in follows) {
+         foreach (var fol in follows) {
             var fposts = await db.Posts.Where(p => p.User.UserName == fol).ToListAsync();
             posts.AddRange(fposts);
          }
          posts.OrderByDescending(p => p.Date);
          return View(posts);
       }
-
-      public async Task<ActionResult> UserDetails() {
-         var user = await db.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
-         if (user != null) {
-            return View(user);
-         }
-         return View();
-      }
-
 
       [HttpGet]
       public ActionResult NewPost() {
@@ -57,14 +51,14 @@ namespace Instagram.Controllers
          if (Request.Files.Count > 0) {
             HttpPostedFileBase poImgFile = Request.Files["postImage"];
             if (poImgFile == null || poImgFile.ContentLength == 0) {
-               ModelState.AddModelError("Image", "Please select an image to share");
+               ModelState.AddModelError("Image", Strings.Error_select_image);
                return View(post);
             }
             using (var binary = new BinaryReader(poImgFile.InputStream)) {
                imageData = binary.ReadBytes(poImgFile.ContentLength);
             }
          } else {
-            ModelState.AddModelError("Image", "Please select an image to share");
+            ModelState.AddModelError("Image", Strings.Error_select_image);
             return View(post);
          }
 
@@ -74,15 +68,61 @@ namespace Instagram.Controllers
             post.Image = imageData;
             db.Posts.Add(post);
             await db.SaveChangesAsync();
+            return RedirectToAction("MyPosts");
          }
          return View(post);
       }
+
+      [HttpGet]
+      public async Task<ActionResult> MyPosts() {
+         var me = await db.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+         return View(me.Posts.OrderByDescending(p => p.Date).ToList());
+      }
+
+
+      [HttpGet]
+      public async Task<ActionResult> SearchUsers() {
+         return View();
+      }
+
+      [HttpGet]
+      public async Task<ActionResult> GetUsers() {
+         // should be optimized later
+         var me = await db.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+         var users = await db.Users
+            .Select(u => new UserVM {
+               UserName = u.UserName,
+               Email = u.Email,
+               FullName = u.FullName,
+               AboutMe = u.AboutMe,
+               Avatar = u.Avatar
+            })
+            .ToListAsync();
+         return Json(new { success = true, data = users }, JsonRequestBehavior.AllowGet);
+      }
+
+      [HttpGet]
+      public async Task<ActionResult> UserProfile(string id) {
+         if (id == null) {
+            var me = await db.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+            return View(me);
+         }
+         var user = await db.Users.FirstOrDefaultAsync(u => u.UserName == id);
+         return View(user);
+      }
+
+
 
       [HttpPost]
       public async Task<JsonResult> Follow(string username) {
          var user = await db.Users.FirstOrDefaultAsync(u => u.UserName == username);
          var me = await db.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
          if (user != null) {
+
+            if (user.UserName == me.UserName) {
+               return Json(new { success = false, msg = Strings.Error_cant_follow_myself });
+            }
+
             var follow = new Follow() {
                Date = DateTime.Now,
                Followed = user,
@@ -95,9 +135,9 @@ namespace Instagram.Controllers
             db.Entry(user).State = EntityState.Modified;
             db.Entry(me).State = EntityState.Modified;
             await db.SaveChangesAsync();
-            return Json(new { success = true, msg = "Successfully added to follow list" });
+            return Json(new { success = true, msg = Strings.Added_to_follow });
          } else {
-            return Json(new { success = false, msg = "Can't find the user" });
+            return Json(new { success = false, msg = Strings.Error_cant_find_user });
          }
       }
 
@@ -122,9 +162,9 @@ namespace Instagram.Controllers
                db.Likes.Remove(like);
             }
             await db.SaveChangesAsync();
-            return Json(new { success = true, msg = "User successfully liked the post" });
+            return Json(new { success = true, msg = Strings.User_liked_post });
          } else {
-            return Json(new { success = false, msg = "Can't find the post" });
+            return Json(new { success = false, msg = Strings.Error_cant_find_post });
          }
       }
 
@@ -143,11 +183,20 @@ namespace Instagram.Controllers
 
             db.Comments.Add(ncomment);
             await db.SaveChangesAsync();
-            return Json(new { success = true, msg = "User successfully added comment" });
+            return Json(new { success = true, msg = Strings.Comment_added });
          } else {
-            return Json(new { success = false, msg = "Can't find the post" });
+            return Json(new { success = false, msg = Strings.Error_cant_find_post });
          }
 
+      }
+
+      class UserVM
+      {
+         public string UserName { get; set; }
+         public string Email { get; set; }
+         public string FullName { get; set; }
+         public string AboutMe { get; set; }
+         public byte[] Avatar { get; set; }
       }
 
    }

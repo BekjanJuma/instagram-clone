@@ -2,12 +2,12 @@
 @using Instagram.Models
 @model LoginViewModel
 @{
-    ViewBag.Title = "Home page";
+    ViewBag.Title = Strings.Home_page;
 }
 
 @if (User.Identity.IsAuthenticated)
 {
-    <h3>User already logged in!</h3>
+    <h3>@Strings.User_already_logged_in</h3>
 }
 else
 {
@@ -20,7 +20,7 @@ else
                 @Html.AntiForgeryToken()
                 <div class="card">
                     <div class="card-header">
-                        Use a local account to log in
+                        @Strings.Log_in
                     </div>
                     <div class="card-body">
 
@@ -42,11 +42,11 @@ else
 
                         <div class="form-group row">
                             <div class="offset-4 col-8">
-                                <input type="submit" value="Log in" class="btn btn-default" />
+                                <input type="submit" value="@Strings.Log_in" class="btn btn-default" />
                             </div>
                         </div>
                         <p>
-                            <a href="/Account/Register">Register as a new user</a>
+                            <a href="/Account/Register">@Strings.Register</a>
                         </p>
                     </div>
                 </div>

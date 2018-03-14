@@ -1,0 +1,14 @@
+﻿@model Instagram.Models.Comment
+<div class="card">
+    <div class="card-header">
+        <span class="card-title">
+            @Model.User.UserName
+        </span>
+        <span class="float-right">
+            @Model.Date
+        </span>
+    </div>
+    <div class="card-body" style="font-family: 'Courier New'; font-size: 0.9em;">
+        @Model.Content
+    </div>
+</div>

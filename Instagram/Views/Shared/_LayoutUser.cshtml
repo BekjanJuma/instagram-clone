@@ -15,19 +15,44 @@
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="~/Scripts/showerrors.js"></script>
+    <script src="~/Scripts/Post.js"></script>
 </head>
 <body>
-
     <nav class="navbar navbar-expand-md bg-primary navbar-dark sticky-top">
         <!-- Brand/logo -->
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="/User">
             <i class="fab fa-instagram fa-2x" alt="logo"></i>
         </a>
+
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="/User/NewPost" class="nav-link active">
+                    <i class="far fa-plus-square"></i>&nbsp; <span class="d-none d-sm-inline">@Strings.Post</span>
+                </a>
+            </li>
+            @*<li class="nav-item">
+                <a href="/User/MyPosts" class="nav-link active">
+                    <i class="fas fa-list"></i>&nbsp; <span class="d-none d-sm-inline">@Strings.MyPosts</span>
+                </a>
+            </li>*@
+            <li class="nav-item">
+                <a href="/User/UserProfile" class="nav-link active">
+                    <i class="far fa-user"></i>&nbsp; <span class="d-none d-sm-inline">@Strings.Profile</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/User/SearchUsers" class="nav-link active">
+                    <i class="fas fa-search"></i>&nbsp; <span class="d-none d-sm-inline">@Strings.Search</span>
+                </a>
+            </li>
+        </ul>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
+
 
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <!-- Links -->
@@ -37,9 +62,10 @@
     </nav>
 
     <div class="container">
+        @Html.Partial("_ErrorDiv")
+
         @RenderBody()
     </div>
-
     @RenderSection("scripts", required: false)
 </body>
 </html>

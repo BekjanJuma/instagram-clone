@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Instagram.Resources;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Newtonsoft.Json;
 
 namespace Instagram.Models
 {
@@ -27,6 +30,8 @@ namespace Instagram.Models
         public int numFollowers { get; set; }
         public int numFollowings { get; set; }
 
+      [JsonIgnore]
+      [Display(Name = @"Posts", ResourceType = typeof(Strings))]
         public virtual List<Post> Posts { get; set; }
     }
     

@@ -1,13 +1,14 @@
-﻿using System.Web;
+﻿using Instagram.Filters;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Instagram
 {
-    public class FilterConfig
-    {
-        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
-        {
-            filters.Add(new HandleErrorAttribute());
-        }
-    }
+   public class FilterConfig
+   {
+      public static void RegisterGlobalFilters(GlobalFilterCollection filters) {
+         filters.Add(new HandleErrorAttribute());
+         filters.Add(new LocalizationAttribute());
+      }
+   }
 }
