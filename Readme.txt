@@ -1,3 +1,4 @@
+// English
 Instagram clone
 
 Simple instagram clone written by ASP.NET MVC 5.
@@ -13,6 +14,7 @@ is simple enough not to use services and repositories.
 Todo list:
 - globalization is not finished for errors: only show errors on english
 
+// Русский - Russian
 Клон - инстаграма
 
 Простой клон инстаграма написан на ASP.NET MVC 5
