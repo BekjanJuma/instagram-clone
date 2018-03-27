@@ -1,5 +1,5 @@
 // English
-Instagram clone
+Instagram clone - <a href="http://instaclone.sentebiolab.com/">DEMO</a>
 
 Simple instagram clone written by ASP.NET MVC 5.
 To run on localhost please use visual studio 2017 - open InstaClone.sln and run using Run/Debug.
